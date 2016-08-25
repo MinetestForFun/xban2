@@ -9,8 +9,9 @@ local ESC = minetest.formspec_escape
 local function make_list(filter)
 	filter = filter or ""
 	local list, n, dropped = { }, 0, false
-	local enumerate = minetest.get_auth_handler().enumerate_auths
-	for k in enumerate and enumerate() or pairs(minetest.auth_table) do
+	local enumerate, e1, e2, e3 = minetest.get_auth_handler().enumerate_auths
+	if enumerate then e1 = enumerate() else e1, e2, e3 = pairs(minetest.auth_table) end
+	for k in e1, e2, e3 do
 		if strfind(k, filter, 1, true) then
 			if n >= MAXLISTSIZE then
 				dropped = true
